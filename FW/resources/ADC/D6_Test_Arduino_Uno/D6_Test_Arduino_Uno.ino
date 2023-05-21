@@ -26,6 +26,15 @@
 			-O With BC640: off is 0V, on is between 0.5->1V and 7->6V.
 				-O After divider: on is between 0.2V and 2V
 					-C Lower bound will be saturted.
+
+----------------------------------------------------------------------------
+LPRS2 Project Robot
+By: 
+  Andrej Gobor
+  Sara Dordjev
+
+Notes:
+  Samples done by pin A0
 */
 
 
@@ -55,6 +64,8 @@
 #define SWITCH_A 5
 
 #define ND 7
+
+#define MAX_VALUE 5
 
 const u8 enc_to_coil_to_pin[4][6] = {
 	{TDxy1, ND, ND, ND, ND, ND},
@@ -103,14 +114,14 @@ static void steer_mux(u8 h) {
 	if(hh.b3){
 		// h8, h9
 		if(hh.b0){
-			set_mcu_mux(MUX_H9);
+			//set_mcu_mux(MUX_H9);
 		}else{
-			set_mcu_mux(MUX_H8);
+			//set_mcu_mux(MUX_H8);
 		}
 	}else{
 		if(hh.b2){
 			// [h4-h7]
-			set_mcu_mux(EXT_MUX_Y);
+			//set_mcu_mux(EXT_MUX_Y);
 		}else{
 			// [h0-h3]
 			set_mcu_mux(EXT_MUX_X);
@@ -206,7 +217,7 @@ static void phase_irq() {
 	
 	// We are on start of phase.
 	switch(phase){
-#if 0
+#if 1
 // According to IF4 board RE.
 		case 0:
 			clear_pulse(0, 0);
@@ -243,7 +254,7 @@ void setup() {
 
 	Serial.begin(115200);
 	Serial.println("setup() running...");
-	delay(1); // [ms]
+	//delay(1); // [ms]
 
 	pinMode(LED_BUILTIN, OUTPUT);
 	digitalWrite(LED_BUILTIN, 0);
@@ -303,7 +314,7 @@ void setup() {
 	Timer1.attachInterrupt(phase_irq);
 
 	
-	//Serial.println("setup() finished.");
+	Serial.println("setup() finished.");
 }
 
 
@@ -315,14 +326,19 @@ void print_new_row(int i) {
 void print_sample(int i) {
 	
 	char s[5];
-	sprintf(s, " %04x", samples[i]);
+  char stringValue[10];
+  double sample = (samples[i] * MAX_VALUE) / 1024.0;
+
+  dtostrf(sample, 6, 3, stringValue);
+  
+	sprintf(s, " %s", stringValue);
 	Serial.print(s);
 }
 
 
 #define N_COLS 16
 void loop() {
-	
+  
 	if(sample_idx == N_SAMPLES){
 		sample_idx++;
 		digitalWrite(TDxy1, 0);
