@@ -907,6 +907,7 @@
     (property "Datasheet" "~" (id 3) (at 192.405 100.33 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Comment" "To PB_Panel" (id 4) (at 191.77 79.375 0))
     (pin "1" (uuid 3b2e3300-6037-4738-a443-f64165b15dba))
     (pin "2" (uuid 3516c5b1-c800-443d-9ba9-7eccd317b01c))
     (pin "3" (uuid 749750da-2246-4c65-a22d-2eacdc272ea8))
