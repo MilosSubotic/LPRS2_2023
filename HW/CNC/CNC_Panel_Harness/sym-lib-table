@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name "CNC_Panel_Harness-cache")(type "Legacy")(uri "${KIPRJMOD}/CNC_Panel_Harness-cache.lib")(options "")(descr ""))
-)
